@@ -1,10 +1,23 @@
+#create s3 logging bucket
+resource "aws_s3_bucket" "log_bucket" {
+  bucket = "my-tf-log-bucket"
+  acl    = "log-delivery-write"
+}
+
 #create s3 bucket
 resource "aws_s3_bucket" "mybucket" {
   bucket = var.bucketname
 versioning {
     enabled = true
   }
+
+  logging {
+    target_bucket = "${aws_s3_bucket.log_bucket.id}"
+    target_prefix = "log/"
+  }
+
 }
+
 
 resource "aws_s3_bucket_ownership_controls" "example" {
   bucket = aws_s3_bucket.mybucket.id
