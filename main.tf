@@ -1,6 +1,9 @@
 #create s3 bucket
 resource "aws_s3_bucket" "mybucket" {
   bucket = var.bucketname
+versioning {
+    enabled = true
+  }
 }
 
 resource "aws_s3_bucket_ownership_controls" "example" {
